@@ -1,0 +1,5 @@
+4 4 0 0 3 3
+M-MMMM--M-MMMM--
+M--M-MM-M--M-MM-
+--MMM-M-----MMM-
+M-MMM-M---M-MMM-
