@@ -124,6 +124,12 @@ static int		render(t_maze *maze)
 		FG_RED,
 		"Exit\n");
   attroff();
+  attron(STANDOUT);
+  color_printxy(term_width  - strlen("Created by Tanguy Duhamel"),
+		term_height - 1,
+		FG_YELLOW,
+		"Created by Tanguy Duhamel\n");
+  attroff();
   return (0);
 }
 

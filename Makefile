@@ -4,6 +4,8 @@ CC	=	gcc
 
 CFLAGS	=	-W -Wall -Wextra -Iinclude -g
 
+LDFLAGS	=	-lm
+
 SRCS	=	$(wildcard srcs/*.c)
 
 OBJS	=	$(SRCS:.c=.o)
@@ -11,7 +13,7 @@ OBJS	=	$(SRCS:.c=.o)
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-		$(CC) $(OBJS) -o $(NAME)
+		$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 clean:
 		rm -f $(OBJS)
