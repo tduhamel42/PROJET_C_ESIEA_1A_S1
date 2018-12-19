@@ -2,7 +2,7 @@
  * File              : include/draw_utils.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 17.12.2018
+ * Last Modified Date: 19.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -43,9 +43,17 @@ enum		e_mode
   REVERSE
 };
 
+enum		e_cursor
+{
+  VISIBLE = 1,
+  INVISIBLE
+};
+
 void		color_printxy(int x, int y, int color, char *format, ...);
 void		attron(int attr);
 void		attroff();
-void		draw_box(int x, int y, int width, int height);
+void		set_cursor(int attr);
+void		draw_box(int x, int y, int width, int height, int color);
+void		move_cursor(int x, int y);
 
 #endif /* !DRAW_UTILS_H_ */

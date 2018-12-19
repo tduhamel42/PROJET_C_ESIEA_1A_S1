@@ -2,13 +2,15 @@
  * File              : srcs/draw_utils.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 17.12.2018
+ * Last Modified Date: 19.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include "vector2.h"
+#include <wchar.h>
 #include "draw_utils.h"
 
 void			color_printxy(int x, int y, int color, char *format, ...)
@@ -39,12 +41,42 @@ void			attroff()
   printf("\033[%dm", RESET);
 }
 
-void		draw_box(int x, int y, int width, int height)
+void		set_cursor(int attr)
 {
-  for (int y = 0; y < height; y++)
+  if (attr == VISIBLE)
+    printf("\033[?25h\n");
+  else
+    printf("\033[?25l\n");
+}
+
+void		draw_box(int start_x, int start_y, int width, int height, int color)
+{
+  t_vector2	cpos;
+
+  for (int y = start_y; y < (start_y + height); y++)
     {
-      for (int x = 0; x < width; x++)
+      for (int x = start_x; x < (start_x + width); x++)
 	{
+	  cpos.x = x;
+	  cpos.y = y;
+	  if (y == start_y && x == start_x)
+	    printf("\033[%d;%dH\033[%dm╔", cpos.y, cpos.x, color);
+	  else if (x == start_x && y == (start_y + height) - 1)
+	    printf("\033[%d;%dH\033[%dm╚", cpos.y, cpos.x, color);
+	  else if (x == (start_x + width) - 1 && y == start_y)
+	    printf("\033[%d;%dH\033[%dm╗", cpos.y, cpos.x, color);
+	  else if (x == (start_x + width) - 1 && y == (start_y + height) - 1)
+	    printf("\033[%d;%dH\033[%dm╝", cpos.y, cpos.x, color);
+	  else if (x == start_x || x == (start_x + width) - 1)
+	    printf("\033[%d;%dH\033[%dm║", cpos.y, cpos.x, color);
+	  else if (y == start_y || y == (start_y + height) - 1)
+	    printf("\033[%d;%dH\033[%dm═", cpos.y, cpos.x, color);
 	}
     }
+  attroff();
+}
+
+void		move_cursor(int x, int y)
+{
+  printf("\033[%d;%dH\n", y, x);
 }

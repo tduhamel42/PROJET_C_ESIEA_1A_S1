@@ -2,7 +2,7 @@
  * File              : include/maze.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 17.12.2018
+ * Last Modified Date: 18.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
