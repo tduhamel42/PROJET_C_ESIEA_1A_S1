@@ -14,6 +14,7 @@
 #include "draw_utils.h"
 #include "single_player_screen.h"
 #include "two_player_screen.h"
+#include "adventure_mode_screen.h"
 #include "main_menu_screen.h"
 #include "player_screen.h"
 
@@ -37,6 +38,12 @@ static int		update(t_maze *maze)
 	    delete_player_screen(maze->current_screen);
 	    system("clear");
 	    if ((maze->current_screen = new_two_player_screen(maze)) == NULL)
+	      return (1);
+	    break;
+	  case 2:
+	    delete_player_screen(maze->current_screen);
+	    system("clear");
+	    if ((maze->current_screen = new_adventure_mode_screen(maze)) == NULL)
 	      return (1);
 	    break;
 	  case 3:
@@ -93,6 +100,7 @@ t_screen		*new_player_screen(t_maze *maze)
   t_screen		*screen;
   t_player_screen_data	*data;
 
+  (void) maze;
   if ((screen = new_screen()) == NULL)
     return (NULL);
   screen->update = update;

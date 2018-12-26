@@ -10,6 +10,7 @@
 #include <string.h>
 #include "screen.h"
 #include "maze_helper.h"
+#include "maze_generator.h"
 #include "maze.h"
 #include "draw_utils.h"
 #include "single_player_screen.h"
