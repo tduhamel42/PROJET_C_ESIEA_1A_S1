@@ -2,7 +2,7 @@
  * File              : srcs/linked_list.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 26.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -15,7 +15,7 @@ int		llist_push(t_llist **list, void *data)
 
   if ((nelem = malloc(sizeof(t_llist))) == NULL)
     return (0);
-  nelem = data;
+  nelem->data = data;
   nelem->next = NULL;
   nelem->prev = (*list);
   if ((*list))

@@ -2,7 +2,7 @@
  * File              : srcs/maze.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 26.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -38,8 +38,7 @@ t_maze			*new_maze()
   if ((maze = malloc(sizeof(t_maze))) == NULL)
     return (NULL);
   maze->running = 1;
-  if ((maze->current_screen = new_main_menu_screen()) == NULL)
-    return (NULL);
+  maze->use_generated = 0;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
   set_cursor(INVISIBLE);
   term_width = w.ws_col;
@@ -51,6 +50,9 @@ t_maze			*new_maze()
   newterm.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newterm);
   atexit(reset_term);
+
+  if ((maze->current_screen = new_main_menu_screen()) == NULL)
+    return (NULL);
   return (maze);
 }
 

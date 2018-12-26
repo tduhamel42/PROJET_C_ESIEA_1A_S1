@@ -2,7 +2,7 @@
  * File              : srcs/screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 17.12.2018
+ * Last Modified Date: 26.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -23,5 +23,6 @@ t_screen		*new_screen()
 
 void			delete_screen(t_screen *screen)
 {
+  free(screen->data);
   free(screen);
 }

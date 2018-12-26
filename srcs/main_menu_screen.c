@@ -2,7 +2,7 @@
  * File              : srcs/main_menu_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 26.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -19,29 +19,26 @@ static int		update(t_maze *maze)
 {
   t_main_menu_data	*data = (t_main_menu_data *) maze->current_screen->data;
 
+  update_selection_menu(data->menu, maze->key);
   switch (maze->key)
     {
-    case  'B':
-      data->selection++;
-      if (data->selection > 2)
-	data->selection = 0;
-      break;
-    case  'A':
-      data->selection--;
-      if (data->selection < 0)
-	data->selection = 2;
+    case ' ':
+      if (maze->use_generated)
+	maze->use_generated = 0;
+      else
+	maze->use_generated = 1;
       break;
     case '\n':
-      switch (data->selection)
+      switch (data->menu->selected)
 	{
 	case 0:
-	  delete_screen(maze->current_screen);
+	  delete_main_menu_screen(maze->current_screen);
 	  system("clear");
 	  if ((maze->current_screen = new_ia_screen()) == NULL)
 	    return (1);
 	  break;
 	case 1:
-	  delete_screen(maze->current_screen);
+	  delete_main_menu_screen(maze->current_screen);
 	  system("clear");
 	  if ((maze->current_screen = new_player_screen(maze)) == NULL)
 	    return (1);
@@ -103,26 +100,22 @@ static int		render(t_maze *maze)
 		"Where is billy ?");
   attroff();
   attron(STANDOUT);
-  if (data->selection == 0)
-    attron(UNDERSCORE);
-  color_printxy((term_width / 2) - 7,
-		(term_height / 2) - 3,
-		FG_CYAN,
-		"IA mode\n");
-  attroff();
-  if (data->selection == 1)
-    attron(UNDERSCORE);
-  color_printxy((term_width / 2) - 7,
-		(term_height / 2) - 2,
-		FG_MAGENTA,
-		"Player mode\n");
-  attroff();
-  if (data->selection == 2)
-    attron(UNDERSCORE);
-  color_printxy((term_width / 2) - 7,
-		(term_height / 2) - 1,
-		FG_RED,
-		"Exit\n");
+  render_selection_menu(data->menu);
+  color_printxy(term_width - (strlen("Press SPACE to change !") * 2),
+		(term_height / 2),
+		FG_YELLOW,
+		"Press SPACE to change !\n");
+  attron(BOLD);
+  if (maze->use_generated)
+    color_printxy(term_width - (strlen("Press SPACE to change !") * 2),
+		  (term_height / 2) + 1,
+		  FG_YELLOW,
+		  "Using generated maze !\n");
+  else
+    color_printxy(term_width - (strlen("Press SPACE to change !") * 2),
+		  (term_height / 2) + 1,
+		  FG_YELLOW,
+		  "Using maze from file !\n");
   attroff();
   attron(STANDOUT);
   color_printxy(term_width  - strlen("Created by Tanguy Duhamel"),
@@ -145,6 +138,21 @@ t_screen		*new_main_menu_screen()
   if ((screen->data = malloc(sizeof(t_main_menu_data))) == NULL)
     return (NULL);
   data = (t_main_menu_data *) screen->data;
-  data->selection = 0;
+  if ((data->menu = new_selection_menu((term_width / 2) - 7,
+				       (term_height / 2) - 3,
+				       UNDERSCORE,
+				       3,
+				       "IA Mode",
+				       "Player mode",
+				       "Exit")) == NULL)
+    return (NULL);
   return (screen);
+}
+
+void			delete_main_menu_screen(t_screen *screen)
+{
+  t_main_menu_data	*data = (t_main_menu_data *) screen->data;
+  
+  delete_selection_menu(data->menu);
+  delete_screen(screen);
 }

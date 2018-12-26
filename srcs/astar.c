@@ -2,7 +2,7 @@
  * File              : srcs/astar.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 21.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -34,6 +34,8 @@ int		astar(t_maze *maze, t_llist **list, t_vector2 start_pos, t_vector2 end)
   t_llist	*clist = NULL;
   t_node	*start, *current;
 
+  (void) maze; (void) list; (void) clist; (void) current;
+  heuristic(start_pos, end);
   if ((start = new_node(start_pos, 0)) == NULL)
     return (1);
   llist_push(&olist, &start);

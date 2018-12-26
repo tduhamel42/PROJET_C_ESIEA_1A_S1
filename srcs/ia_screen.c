@@ -2,7 +2,7 @@
  * File              : srcs/ia_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 21.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -16,6 +16,7 @@
 
 static int		update(t_maze *maze)
 {
+  (void) maze;
   return (0);
 }
 

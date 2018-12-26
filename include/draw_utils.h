@@ -2,7 +2,7 @@
  * File              : include/draw_utils.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 26.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -40,7 +40,7 @@ enum		e_mode
   STANDOUT,
   UNDERSCORE,
   BLINK,
-  REVERSE
+  REVERSE = 7
 };
 
 enum		e_cursor

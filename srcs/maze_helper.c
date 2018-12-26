@@ -2,7 +2,7 @@
  * File              : srcs/maze_helper.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 18.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 26.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -83,6 +83,8 @@ int		load_maze(t_maze *maze)
   maze->size.y = maze->size.y * 2 + 1;
   maze->end.x = maze->end.x * 2 + 1;
   maze->end.y = maze->end.y * 2 + 1;
+  maze->start.x = maze->start.x * 2 + 1;
+  maze->start.y = maze->start.y * 2 + 1;
   return (0);
 }
 
@@ -130,12 +132,26 @@ void		pretty_maze_print(t_maze *maze)
 	    printf("██");
 	  else if (maze->maze[y][x] == '#' && x % 2 == 1 && y % 2 == 0)
 	    printf("██");
-	  else if (maze->maze[y][x] == 'p')
-	    printf("웃");
-	  else if (maze->maze[y][x] == 'e')
-	    printf("☉ ");
 	  else
-	    printf("  ");
+	    {
+	      switch (maze->maze[y][x])
+		{
+		case 'p':
+		  attron(FG_RED);
+		  printf("웃");
+		  break;
+		case 'q':
+		  attron(FG_YELLOW);
+		  printf("웃");
+		  break;
+		case 'e':
+		  printf("☉ ");
+		  break;
+		default:
+		  printf("  ");
+		}
+	    }
+	  attroff();
 	}
       printf("\n");
     }
