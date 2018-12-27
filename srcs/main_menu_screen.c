@@ -2,7 +2,7 @@
  * File              : srcs/main_menu_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -15,36 +15,36 @@
 #include "player_screen.h"
 #include "main_menu_screen.h"
 
-static int		update(t_maze *maze)
+static int		update(t_game *game)
 {
-  t_main_menu_data	*data = (t_main_menu_data *) maze->current_screen->data;
+  t_main_menu_data	*data = (t_main_menu_data *) game->current_screen->data;
 
-  update_selection_menu(data->menu, maze->key);
-  switch (maze->key)
+  update_selection_menu(data->menu, game->key);
+  switch (game->key)
     {
     case ' ':
-      if (maze->use_generated)
-	maze->use_generated = 0;
+      if (game->use_generated)
+	game->use_generated = 0;
       else
-	maze->use_generated = 1;
+	game->use_generated = 1;
       break;
     case '\n':
       switch (data->menu->selected)
 	{
 	case 0:
-	  delete_main_menu_screen(maze->current_screen);
+	  delete_main_menu_screen(game->current_screen);
 	  system("clear");
-	  if ((maze->current_screen = new_ia_screen()) == NULL)
+	  if ((game->current_screen = new_ia_screen()) == NULL)
 	    return (1);
 	  break;
 	case 1:
-	  delete_main_menu_screen(maze->current_screen);
+	  delete_main_menu_screen(game->current_screen);
 	  system("clear");
-	  if ((maze->current_screen = new_player_screen(maze)) == NULL)
+	  if ((game->current_screen = new_player_screen(game)) == NULL)
 	    return (1);
 	  break;
 	case 2:
-	  maze->running = 0;
+	  game->running = 0;
 	  break;
 	}
       break;
@@ -80,9 +80,9 @@ static void		print_title(int color)
 		"╚═════╝ ╚═╝╚══════╝╚══════╝   ╚═╝   ╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝");
 }
 
-static int		render(t_maze *maze)
+static int		render(t_game *game)
 {
-  t_main_menu_data	*data = (t_main_menu_data *) maze->current_screen->data;
+  t_main_menu_data	*data = (t_main_menu_data *) game->current_screen->data;
   int			color = (rand() % (FG_WHITE - FG_BLACK)) + FG_BLACK;
 
   print_title(color);
@@ -106,7 +106,7 @@ static int		render(t_maze *maze)
 		FG_YELLOW,
 		"Press SPACE to change !\n");
   attron(BOLD);
-  if (maze->use_generated)
+  if (game->use_generated)
     color_printxy(term_width - (strlen("Press SPACE to change !") * 2),
 		  (term_height / 2) + 1,
 		  FG_YELLOW,

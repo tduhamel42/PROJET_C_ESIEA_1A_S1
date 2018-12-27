@@ -2,7 +2,7 @@
  * File              : srcs/ia_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 21.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -14,31 +14,31 @@
 #include "maze_helper.h"
 #include "ia_screen.h"
 
-static int		update(t_maze *maze)
+static int		update(t_game *game)
 {
-  (void) maze;
+  (void) game;
   return (0);
 }
 
-static void		render_stats(t_maze *maze)
+static void		render_stats(t_game *game)
 {
-  draw_box((maze->size.x * 2) + 5,
+  draw_box((game->maze->size.x * 2) + 5,
 	   2,
 	   28,
 	   8,
 	   FG_BLUE);
   attron(BOLD);
-  color_printxy((maze->size.x * 2) + 20 - strlen("Stats"),
+  color_printxy((game->maze->size.x * 2) + 20 - strlen("Stats"),
 		3,
 		FG_RED,
 		"Stats");
   attroff();
 }
 
-static int		render(t_maze *maze)
+static int		render(t_game *game)
 {
-  pretty_maze_print(maze);
-  render_stats(maze);
+  pretty_maze_print(game->maze);
+  render_stats(game);
   return (0);
 }
 

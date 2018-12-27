@@ -2,7 +2,7 @@
  * File              : srcs/maze.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -29,21 +29,22 @@ void			reset_term()
   printf("Bye !\n");
 }
 
-t_maze			*new_maze()
+t_game			*new_game()
 {
-  t_maze		*maze;
+  t_game		*game;
   struct winsize	w;
   struct termios	newterm;
 
-  if ((maze = malloc(sizeof(t_maze))) == NULL)
+  if ((game = malloc(sizeof(t_game))) == NULL
+      || (game->maze = malloc(sizeof(t_maze))) == NULL) 
     return (NULL);
-  maze->running = 1;
-  maze->use_generated = 0;
+  game->running = 1;
+  game->use_generated = 0;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
   set_cursor(INVISIBLE);
   term_width = w.ws_col;
   term_height = w.ws_row;
-  load_maze(maze);
+  load_maze(game->maze);
 
   tcgetattr(STDIN_FILENO, &oldterm);
   newterm = oldterm;
@@ -51,14 +52,14 @@ t_maze			*new_maze()
   tcsetattr(STDIN_FILENO, TCSANOW, &newterm);
   atexit(reset_term);
 
-  if ((maze->current_screen = new_main_menu_screen()) == NULL)
+  if ((game->current_screen = new_main_menu_screen()) == NULL)
     return (NULL);
-  return (maze);
+  return (game);
 }
 
-void			delete_maze(t_maze *maze)
+void			delete_game(t_game *game)
 {
-  free(maze);
+  free(game);
 }
 
 static char		key_pressed()
@@ -74,18 +75,18 @@ static char		key_pressed()
   return result;
 }
 
-int			run_maze(t_maze *maze)
+int			run_game(t_game *game)
 {
   system("clear");
-  while (maze->running)
+  while (game->running)
     {
-      maze->key = key_pressed();
-      if (maze->key == 27 && key_pressed() == 0)
-	maze->running = 0;
-      if (maze->current_screen && maze->current_screen->update)
-	maze->current_screen->update(maze);
-      if (maze->current_screen && maze->current_screen->render)
-	maze->current_screen->render(maze);
+      game->key = key_pressed();
+      if (game->key == 27 && key_pressed() == 0)
+	game->running = 0;
+      if (game->current_screen && game->current_screen->update)
+	game->current_screen->update(game);
+      if (game->current_screen && game->current_screen->render)
+	game->current_screen->render(game);
       usleep(1000);
     }
   return (0);

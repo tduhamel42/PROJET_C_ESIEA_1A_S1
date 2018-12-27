@@ -2,7 +2,7 @@
  * File              : srcs/two_player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -12,129 +12,67 @@
 #include "maze_helper.h"
 #include "maze.h"
 #include "draw_utils.h"
+#include "player.h"
 #include "two_player_screen.h"
 
-static int		update(t_maze *maze)
+static int		update(t_game *game)
 {
   t_two_player_screen_data	*data =
-    (t_two_player_screen_data *) maze->current_screen->data;
+    (t_two_player_screen_data *) game->current_screen->data;
   
-  maze->maze[data->pos_player1.y][data->pos_player1.x] = ' ';
-  maze->maze[data->pos_player2.y][data->pos_player2.x] = ' ';
-  switch (maze->key)
-    {
-    case 'A':
-      if (data->pos_player1.y - 1 > 0
-	  && maze->maze[data->pos_player1.y - 1][data->pos_player1.x] != '#')
-	{
-	  --data->pos_player1.y;
-	  ++data->nbr_move_player1;
-	}
-      break;
-    case 'B':
-      if (data->pos_player1.y + 1 < maze->size.y
-	  && maze->maze[data->pos_player1.y + 1][data->pos_player1.x] != '#')
-	{
-	  ++data->pos_player1.y;
-	  ++data->nbr_move_player1;
-	}
-      break;
-    case 'C':
-      if (data->pos_player1.x + 1 < maze->size.x
-	  && maze->maze[data->pos_player1.y][data->pos_player1.x + 1] != '#')
-	{
-	  ++data->pos_player1.x;
-	  ++data->nbr_move_player1;
-	}
-      break;
-    case 'D':
-      if (data->pos_player1.x - 1 > 0
-	  && maze->maze[data->pos_player1.y][data->pos_player1.x - 1] != '#')
-	{
-	  --data->pos_player1.x;
-	  ++data->nbr_move_player1;
-	}
-      break;
-    case 'z':
-      if (data->pos_player2.y - 1 > 0
-	  && maze->maze[data->pos_player2.y - 1][data->pos_player2.x] != '#')
-	{
-	  --data->pos_player2.y;
-	  ++data->nbr_move_player2;
-	}
-      break;
-    case 's':
-      if (data->pos_player2.y + 1 < maze->size.y
-	  && maze->maze[data->pos_player2.y + 1][data->pos_player2.x] != '#')
-	{
-	  ++data->pos_player2.y;
-	  ++data->nbr_move_player2;
-	}
-      break;
-    case 'd':
-      if (data->pos_player2.x + 1 < maze->size.x
-	  && maze->maze[data->pos_player2.y][data->pos_player2.x + 1] != '#')
-	{
-	  ++data->pos_player2.x;
-	  ++data->nbr_move_player2;
-	}
-      break;
-    case 'q':
-      if (data->pos_player2.x - 1 > 0
-	  && maze->maze[data->pos_player2.y][data->pos_player2.x - 1] != '#')
-	{
-	  --data->pos_player2.x;
-	  ++data->nbr_move_player2;
-	}
-      break;
-    }
-  maze->maze[data->pos_player1.y][data->pos_player1.x] = 'p';
-  maze->maze[data->pos_player2.y][data->pos_player2.x] = 'q';
+  game->maze->data[data->player1->pos.y][data->player1->pos.x] = ' ';
+  game->maze->data[data->player2->pos.y][data->player2->pos.x] = ' ';
+  data->player1->update(game, data->player1);
+  data->player2->update(game, data->player2);
+  game->maze->data[data->player1->pos.y][data->player1->pos.x] = 'p';
+  game->maze->data[data->player2->pos.y][data->player2->pos.x] = 'q';
   return (0);
 }
 
-static int		render(t_maze *maze)
+static int		render(t_game *game)
 {
   t_two_player_screen_data	*data =
-    (t_two_player_screen_data *) maze->current_screen->data;
+    (t_two_player_screen_data *) game->current_screen->data;
+  t_player_data			*player1_data = (t_player_data *) data->player1->data;
+  t_player_data			*player2_data = (t_player_data *) data->player2->data;
   
   // Player 1
-  draw_box((maze->size.x * 2) + 5,
+  draw_box((game->maze->size.x * 2) + 5,
 	   2,
 	   28,
 	   8,
 	   FG_RED);
   attron(BOLD);
-  color_printxy((maze->size.x * 2) + 20 - strlen("Player 1"),
+  color_printxy((game->maze->size.x * 2) + 20 - strlen("Player 1"),
 		3,
 		FG_RED,
 		"Player 1");
   attroff();
-  color_printxy((maze->size.x * 2) + 6,
+  color_printxy((game->maze->size.x * 2) + 6,
 		4,
 		FG_RED,
-		"Number of steps: %d", data->nbr_move_player1);
+		"Number of steps: %d", player1_data->nbr_move);
   // Player 2
-  draw_box((maze->size.x * 2) + 5,
+  draw_box((game->maze->size.x * 2) + 5,
 	   11,
 	   28,
 	   8,
 	   FG_YELLOW);
   attron(BOLD);
-  color_printxy((maze->size.x * 2) + 20 - strlen("Player 2"),
+  color_printxy((game->maze->size.x * 2) + 20 - strlen("Player 2"),
 		12,
 		FG_YELLOW,
 		"Player 2");
   attroff();
-  color_printxy((maze->size.x * 2) + 6,
+  color_printxy((game->maze->size.x * 2) + 6,
 		13,
 		FG_YELLOW,
-		"Number of steps: %d", data->nbr_move_player2);
-  pretty_maze_print(maze);
+		"Number of steps: %d", player2_data->nbr_move);
+  pretty_maze_print(game->maze);
   return (0);
 }
 
-t_screen			*new_two_player_screen(t_maze *maze)
+t_screen			*new_two_player_screen(t_game *game)
 {
   t_screen			*screen;
   t_two_player_screen_data	*data;
@@ -146,12 +84,11 @@ t_screen			*new_two_player_screen(t_maze *maze)
   if ((screen->data = malloc(sizeof(t_two_player_screen_data))) == NULL)
     return (NULL);
   data = (t_two_player_screen_data *) screen->data;
-  data->nbr_move_player1 = 0;
-  data->nbr_move_player2 = 0;
+  if ((data->player1 = new_player(game->maze->start, "ABCD ")) == NULL
+      || (data->player2 = new_player(game->maze->start, "zsdqf")) == NULL)
+    return (NULL);
   data->victory = 0;
-  data->pos_player1 = (t_vector2) { .x = maze->start.x, .y = maze->start.y };
-  data->pos_player2 = (t_vector2) { .x = maze->start.x, .y = maze->start.y };
-  maze->maze[maze->end.y][maze->end.x] = 'e';
+  game->maze->data[game->maze->end.y][game->maze->end.x] = 'e';
   return (screen);
 }
 

@@ -2,7 +2,7 @@
  * File              : include/player_screen.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -13,14 +13,14 @@
 #include "vector2.h"
 
 typedef struct s_screen	t_screen;
-typedef struct s_maze	t_maze;
+typedef struct s_game	t_game;
 
 typedef struct		s_player_screen_data
 {
   t_selection_menu	*menu;
 }			t_player_screen_data;
 
-t_screen		*new_player_screen(t_maze *maze);
+t_screen		*new_player_screen(t_game *game);
 void			delete_player_screen(t_screen *screen);
 
 #endif /* !PLAYER_SCREEN_H_ */

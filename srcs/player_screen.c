@@ -2,7 +2,7 @@
  * File              : srcs/player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -18,38 +18,38 @@
 #include "main_menu_screen.h"
 #include "player_screen.h"
 
-static int		update(t_maze *maze)
+static int		update(t_game *game)
 {
-  t_player_screen_data	*data = (t_player_screen_data *) maze->current_screen->data;
+  t_player_screen_data	*data = (t_player_screen_data *) game->current_screen->data;
 
-  update_selection_menu(data->menu, maze->key);
-  switch (maze->key)
+  update_selection_menu(data->menu, game->key);
+  switch (game->key)
     {
       case '\n':
 	switch (data->menu->selected)
 	  {
 	  case 0:
-	    delete_player_screen(maze->current_screen);
+	    delete_player_screen(game->current_screen);
 	    system("clear");
-	    if ((maze->current_screen = new_single_player_screen(maze)) == NULL)
+	    if ((game->current_screen = new_single_player_screen(game)) == NULL)
 	      return (1);
 	    break;
 	  case 1:
-	    delete_player_screen(maze->current_screen);
+	    delete_player_screen(game->current_screen);
 	    system("clear");
-	    if ((maze->current_screen = new_two_player_screen(maze)) == NULL)
+	    if ((game->current_screen = new_two_player_screen(game)) == NULL)
 	      return (1);
 	    break;
 	  case 2:
-	    delete_player_screen(maze->current_screen);
+	    delete_player_screen(game->current_screen);
 	    system("clear");
-	    if ((maze->current_screen = new_adventure_mode_screen(maze)) == NULL)
+	    if ((game->current_screen = new_adventure_mode_screen(game)) == NULL)
 	      return (1);
 	    break;
 	  case 3:
-	    delete_player_screen(maze->current_screen);
+	    delete_player_screen(game->current_screen);
 	    system("clear");
-	    if ((maze->current_screen = new_main_menu_screen(maze)) == NULL)
+	    if ((game->current_screen = new_main_menu_screen(game)) == NULL)
 	      return (1);
 	    break;
 	  }
@@ -86,21 +86,21 @@ static void		print_title(int color)
 		"╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝    ╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝");
   attroff();
 }
-static int		render(t_maze *maze)
+static int		render(t_game *game)
 {
-  t_player_screen_data	*data = (t_player_screen_data *) maze->current_screen->data;
+  t_player_screen_data	*data = (t_player_screen_data *) game->current_screen->data;
 
   print_title(FG_RED);
   render_selection_menu(data->menu);
   return (0);
 }
 
-t_screen		*new_player_screen(t_maze *maze)
+t_screen		*new_player_screen(t_game *game)
 {
   t_screen		*screen;
   t_player_screen_data	*data;
 
-  (void) maze;
+  (void) game;
   if ((screen = new_screen()) == NULL)
     return (NULL);
   screen->update = update;

@@ -2,7 +2,7 @@
  * File              : srcs/maze_helper.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 18.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -70,15 +70,15 @@ int		load_maze(t_maze *maze)
   char		r_maze[maze->size.y][maze->size.x][5];
   
   read_maze(maze->size, r_maze);
-  if ((maze->maze = malloc(sizeof(char *) * (maze->size.y * 2 + 1))) == NULL)
+  if ((maze->data = malloc(sizeof(char *) * (maze->size.y * 2 + 1))) == NULL)
     return (1);
   for (int y = 0; y < maze->size.y * 2 + 1; y++)
     {
-      if ((maze->maze[y] = malloc(sizeof(char) * (maze->size.x * 2 + 1))) == NULL)
+      if ((maze->data[y] = malloc(sizeof(char) * (maze->size.x * 2 + 1))) == NULL)
 	return (1);
-      memset(maze->maze[y], '#', maze->size.x * 2 + 1);
+      memset(maze->data[y], '#', maze->size.x * 2 + 1);
     }
-  convert_maze(maze->size, r_maze, maze->maze);
+  convert_maze(maze->size, r_maze, maze->data);
   maze->size.x = maze->size.x * 2 + 1;
   maze->size.y = maze->size.y * 2 + 1;
   maze->end.x = maze->end.x * 2 + 1;
@@ -95,7 +95,7 @@ void		basic_maze_print(t_maze *maze)
     {
       for (int x = 0; x < maze->size.x; x++)
 	{
-	  printf("%c", maze->maze[y][x]);
+	  printf("%c", maze->data[y][x]);
 	}
       printf("\n");
     }
@@ -108,9 +108,9 @@ void		normal_maze_print(t_maze *maze)
     {
       for (int x = 0; x < maze->size.x; x++)
 	{
-	  if (maze->maze[y][x] == '#')
+	  if (maze->data[y][x] == '#')
 	    printf("+");
-	  else if (maze->maze[y][x] == 'p')
+	  else if (maze->data[y][x] == 'p')
 	    printf("☺");
 	  else
 	    printf(" ");
@@ -126,15 +126,15 @@ void		pretty_maze_print(t_maze *maze)
     {
       for (int x = 0; x < maze->size.x; x++)
 	{
-	  if (maze->maze[y][x] == '#' && x % 2 == 0 && y % 2 == 0)
+	  if (maze->data[y][x] == '#' && x % 2 == 0 && y % 2 == 0)
 	    printf("██");
-	  else if (maze->maze[y][x] == '#' && x % 2 == 0 && y % 2 == 1)
+	  else if (maze->data[y][x] == '#' && x % 2 == 0 && y % 2 == 1)
 	    printf("██");
-	  else if (maze->maze[y][x] == '#' && x % 2 == 1 && y % 2 == 0)
+	  else if (maze->data[y][x] == '#' && x % 2 == 1 && y % 2 == 0)
 	    printf("██");
 	  else
 	    {
-	      switch (maze->maze[y][x])
+	      switch (maze->data[y][x])
 		{
 		case 'p':
 		  attron(FG_RED);

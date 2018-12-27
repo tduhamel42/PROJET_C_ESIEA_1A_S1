@@ -2,7 +2,7 @@
  * File              : srcs/main.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -13,13 +13,13 @@
 
 int		main()
 {
-  t_maze	*maze;
+  t_game	*game;
 
   setlocale(LC_ALL, "en_US.UTF-8");
   srand(time(NULL));
-  if ((maze = new_maze()) == NULL)
+  if ((game = new_game()) == NULL)
     return (EXIT_FAILURE);
-  run_maze(maze);
-  delete_maze(maze);
+  run_game(game);
+  delete_game(game);
   return (EXIT_SUCCESS);
 }
