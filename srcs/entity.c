@@ -2,7 +2,7 @@
  * File              : srcs/entity.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 27.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 29.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -19,7 +19,7 @@ t_entity		*new_entity()
     return (NULL);
   e->pos.x = 0;
   e->pos.y = 0;
-  bzero(e->attibutes, 3);
+  bzero(e->attributes, 3);
   e->update = NULL;
   e->data = NULL;
   return (e);

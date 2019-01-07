@@ -2,7 +2,7 @@
  * File              : include/maze_generator.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 27.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -17,7 +17,7 @@ enum		e_cell_type
   VISITED = ' ',
   PUSHED = 42,
   WALL = '#',
-  REMOVED_WALL,
+  REMOVED_WALL
 };
 
 typedef struct	s_cell
@@ -26,5 +26,6 @@ typedef struct	s_cell
 }		t_cell;
 
 char		**generate_maze_depth_search(int width, int height);
+char		**generate_maze_depth_search_print(int width, int height);
 
 #endif /* !MAZE_GENERATOR_H_ */

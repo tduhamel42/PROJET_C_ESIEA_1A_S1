@@ -11,6 +11,7 @@
 #include "maze.h"
 #include "draw_utils.h"
 #include "player_screen.h"
+#include "survival_mode_screen.h"
 #include "adventure_mode_screen.h"
 
 static int		update(t_game *game)
@@ -27,6 +28,11 @@ static int		update(t_game *game)
 	case 0:
 	  break;
 	case 1:
+	  delete_adventure_mode_screen(game->current_screen);
+	  system("clear");
+	  if ((game->current_screen
+	       = new_survival_mode_screen(game)) == NULL)
+	    return (1);
 	  break;
 	case 2:
 	  delete_adventure_mode_screen(game->current_screen);

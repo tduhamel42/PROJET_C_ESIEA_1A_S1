@@ -2,7 +2,7 @@
  * File              : srcs/two_player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 29.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -22,8 +22,8 @@ static int		update(t_game *game)
   
   game->maze->data[data->player1->pos.y][data->player1->pos.x] = ' ';
   game->maze->data[data->player2->pos.y][data->player2->pos.x] = ' ';
-  data->player1->update(game, data->player1);
-  data->player2->update(game, data->player2);
+  data->player1->update(game, game->maze, data->player1);
+  data->player2->update(game, game->maze, data->player2);
   game->maze->data[data->player1->pos.y][data->player1->pos.x] = 'p';
   game->maze->data[data->player2->pos.y][data->player2->pos.x] = 'q';
   return (0);
@@ -51,7 +51,7 @@ static int		render(t_game *game)
   color_printxy((game->maze->size.x * 2) + 6,
 		4,
 		FG_RED,
-		"Number of steps: %d", player1_data->nbr_move);
+		"Number of steps: %4d", player1_data->nbr_move);
   // Player 2
   draw_box((game->maze->size.x * 2) + 5,
 	   11,
@@ -67,7 +67,7 @@ static int		render(t_game *game)
   color_printxy((game->maze->size.x * 2) + 6,
 		13,
 		FG_YELLOW,
-		"Number of steps: %d", player2_data->nbr_move);
+		"Number of steps: %4d", player2_data->nbr_move);
   pretty_maze_print(game->maze);
   return (0);
 }

@@ -2,7 +2,7 @@
  * File              : include/player.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 27.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 29.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -24,6 +24,7 @@ typedef struct		s_player_data
 {
   char			*keys;
   int			nbr_move;
+  int			dir;
 }			t_player_data;
 
 t_entity		*new_player(t_vector2 pos, const char *keys);

@@ -2,7 +2,7 @@
  * File              : srcs/maze_helper.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 18.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 07.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -43,7 +43,7 @@ static void	convert_maze(t_vector2 size, char maze[size.y][size.x][5], char **fm
 	      if (maze[y / 2][x / 2][0] == '-')
 		if (y - 1 > 0)
 		  fmaze[y - 1][x] = ' ';
-	      if (maze[y / 3][x / 2][1] == '-')
+	      if (maze[y / 2][x / 2][1] == '-')
 		if (x + 1 < size.x * 2)
 		  fmaze[y][x + 1] = ' ';
 	      if (maze[y / 2][x / 2][2] == '-')
@@ -109,7 +109,7 @@ void		normal_maze_print(t_maze *maze)
       for (int x = 0; x < maze->size.x; x++)
 	{
 	  if (maze->data[y][x] == '#')
-	    printf("+");
+	    printf("#");
 	  else if (maze->data[y][x] == 'p')
 	    printf("☺");
 	  else

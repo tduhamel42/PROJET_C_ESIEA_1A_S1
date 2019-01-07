@@ -2,7 +2,7 @@
  * File              : srcs/player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 07.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -14,6 +14,7 @@
 #include "draw_utils.h"
 #include "single_player_screen.h"
 #include "two_player_screen.h"
+#include "ray_casting_screen.h"
 #include "adventure_mode_screen.h"
 #include "main_menu_screen.h"
 #include "player_screen.h"
@@ -47,6 +48,12 @@ static int		update(t_game *game)
 	      return (1);
 	    break;
 	  case 3:
+	    delete_player_screen(game->current_screen);
+	    system("clear");
+	    if ((game->current_screen = new_ray_casting_screen(game)) == NULL)
+	      return (1);
+	    break;
+	  case 4:
 	    delete_player_screen(game->current_screen);
 	    system("clear");
 	    if ((game->current_screen = new_main_menu_screen(game)) == NULL)
@@ -111,10 +118,11 @@ t_screen		*new_player_screen(t_game *game)
   if ((data->menu = new_selection_menu((term_width / 2) - 7,
 				       (term_height / 2) - 3,
 				       REVERSE,
-				       4,
+				       5,
 				       "Normal mode - One player",
 				       "Normal mode - Two player",
 				       "Adventure mode",
+				       "Ray Casting mode",
 				       "Back")) == NULL)
     return (NULL);
   return (screen);

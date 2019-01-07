@@ -2,7 +2,7 @@
  * File              : srcs/linked_list.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 07.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -58,4 +58,11 @@ void		*pop(t_llist **list)
   *list = elem->prev;
   free(elem);
   return (data);
+}
+
+int		sort(t_llist **list, t_llist_func func)
+{
+  (void) list;
+  (void) func;
+  return (0);
 }

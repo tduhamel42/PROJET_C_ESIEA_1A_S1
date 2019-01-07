@@ -2,7 +2,7 @@
  * File              : srcs/single_player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 29.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -22,7 +22,7 @@ static int		update(t_game *game)
     (t_single_player_screen_data *) game->current_screen->data;
   
   game->maze->data[data->player->pos.y][data->player->pos.x] = ' ';
-  data->player->update(game, data->player);
+  data->player->update(game, game->maze, data->player);
   game->maze->data[data->player->pos.y][data->player->pos.x] = 'p';
   if (data->player->pos.x == game->maze->end.x
       && data->player->pos.y == game->maze->end.y)
@@ -98,7 +98,7 @@ static int		render(t_game *game)
   color_printxy((game->maze->size.x * 2) + 6,
 		4,
 		FG_RED,
-		"Number of steps: %d", player_data->nbr_move);
+		"Number of steps: %4d", player_data->nbr_move);
   if (!data->victory)
     pretty_maze_print(game->maze);
   if (data->victory == 1)

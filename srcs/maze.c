@@ -81,6 +81,8 @@ int			run_game(t_game *game)
   while (game->running)
     {
       game->key = key_pressed();
+      if (game->key == 127 || game->key == 8)
+	game->key = '\b';
       if (game->key == 27 && key_pressed() == 0)
 	game->running = 0;
       if (game->current_screen && game->current_screen->update)

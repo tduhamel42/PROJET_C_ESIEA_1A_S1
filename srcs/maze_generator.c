@@ -2,12 +2,15 @@
  * File              : srcs/maze_generator.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 29.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include "maze.h"
 #include "draw_utils.h"
 #include "linked_list.h"
 #include "maze_generator.h"
@@ -85,7 +88,47 @@ static void	remove_wall(t_vector2 c_cell, t_vector2 n_cell, int width,
     maze[c_cell.y - 1][c_cell.x]= REMOVED_WALL;
 }
 
-char		**generate_maze_depth_search(int width, int height)
+static void		print_maze(t_vector2 c, int width, int height, char **maze)
+{
+  move_cursor(0, 0);
+  for (int y = 0; y < height + 1; y++)
+    {
+      for (int x = 0; x < width + 1; x++)
+	{
+	  if (x == c.x && y == c.y)
+	    {
+	      attron(BG_GREEN);
+	      printf("  ");
+	    }
+	  else
+	    {
+	      switch (maze[y][x])
+		{
+		case VISITED:
+		  attron(BG_RED);
+		  printf("  ");
+		  break;
+		case PUSHED:
+		  attron(FG_YELLOW);
+		  printf("  ");
+		  break;
+		case REMOVED_WALL:
+		  attron(FG_BLUE);
+		  printf("██");
+		  break;
+		case WALL:
+		  printf("██");
+		  break;
+		}
+	    }
+	  attroff();
+	}
+      printf("\n");
+    }
+  usleep(4000);
+}
+
+static char		**depth_search(int width, int height, int is_printed)
 {
   char		**maze;
   t_vector2	c_cell, tmp_cell, *p_cell;
@@ -97,8 +140,10 @@ char		**generate_maze_depth_search(int width, int height)
     {
       if ((maze[i] = malloc(sizeof(char) * (width + 1))) == NULL)
 	return (NULL);
-      memset(maze[i], '#', width);
+      memset(maze[i], '#', width + 1);
+      maze[i][width] = ' ';
     }
+  memset(maze[height], ' ', width + 1);
   c_cell.x = 1;
   c_cell.y = 1;
   while (!is_every_cell_visited(width, height, maze))
@@ -125,6 +170,8 @@ char		**generate_maze_depth_search(int width, int height)
 	    }
 	  free(p_cell);
 	}
+      if (is_printed)
+	print_maze(c_cell, width, height, maze);
     }
   for (int y = 0; y < height + 1; y++)
     {
@@ -135,4 +182,14 @@ char		**generate_maze_depth_search(int width, int height)
 	}
     }
   return (maze);
+}
+
+char		**generate_maze_depth_search(int width, int height)
+{
+  return (depth_search(width, height, 0));
+}
+
+char		**generate_maze_depth_search_print(int width, int height)
+{
+  return (depth_search(width, height, 1));
 }
