@@ -2,7 +2,7 @@
  * File              : srcs/survival_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 29.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 29.12.2018
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -27,11 +27,9 @@ static int			update(t_game *game)
 
 static void			render_gui(t_survival_screen_data *data)
 {
-  int				box_width = term_width
-    - (data->level->maze->size.x * 2) - 1;
-  t_player_data			*player_data = (t_player_data *) data->player->data;
+  int				box_width = term_width - (data->level->maze->size.x * 2);
 
-  draw_box((data->level->maze->size.x * 2) + 3,
+  draw_box((data->level->maze->size.x * 2) + 2,
 	   1,
 	   box_width,
 	   20,
@@ -49,34 +47,31 @@ static void			render_gui(t_survival_screen_data *data)
 		    + (box_width / 2) + i,
 		    3,
 		    FG_RED,
-		    "❤");
+		    "❤ ");
     }
-  color_printxy((data->level->maze->size.x * 2) + 4,
+  color_printxy((data->level->maze->size.x * 2) + 3,
 		5,
-		FG_BLUE,
-		"Level: %5d",
-		data->player->attributes[LVL]);
-  color_printxy((data->level->maze->size.x * 2) + 4,
-		6,
-		FG_MAGENTA,
-		"Attack: %4d",
-		data->player->attributes[ATTACK]);
-  // DEBUG
-  color_printxy((data->level->maze->size.x * 2) + 4,
-		8,
 		FG_CYAN,
-		"Dir: %7s",
-		player_data->dir == UP ? "UP" :
-		player_data->dir == DOWN ? "DOWN" :
-		player_data->dir == LEFT ? "LEFT" :
-		player_data->dir == RIGHT ? "RIGHT" : "UNKNOWN");
+		"Level: %d",
+		data->player->attributes[LVL]);
+  color_printxy((data->level->maze->size.x * 2) + 3,
+		6,
+		FG_CYAN,
+		"Attack: %d",
+		data->player->attributes[ATTACK]);
+
+  // DEBUG
+  color_printxy((data->level->maze->size.x * 2) + 3,
+		6,
+		FG_CYAN,
+		"Dir: %s",
+		player_data->dir);
 }
 
 static int			render(t_game *game)
 {
   t_survival_screen_data	*data =
     (t_survival_screen_data *) game->current_screen->data;
-
   render_survival_level(data->level);
   render_gui(data);
   return (0);
@@ -96,7 +91,7 @@ t_screen			*new_survival_screen(t_game *game, char *name)
     return (NULL);
   data = (t_survival_screen_data *) screen->data;
   data->name = strdup(name);
-  if ((data->level = new_survival_level(2)) == NULL)
+  if ((data->level = new_survival_level(1)) == NULL)
     return (NULL);
   if ((data->player = new_player(data->level->maze->start, "ABCD ")) == NULL)
     return (NULL);

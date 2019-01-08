@@ -2,7 +2,7 @@
  * File              : srcs/linked_list.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 07.01.2019
+ * Last Modified Date: 08.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -38,12 +38,12 @@ void		llist_go_last(t_llist **list)
       (*list) = (*list)->next;
 }
 
-int		is_empty(t_llist **list)
+int		llist_is_empty(t_llist **list)
 {
   return (*list == NULL);
 }
 
-void		*pop(t_llist **list)
+void		*llist_pop(t_llist **list)
 {
   void		*data = NULL;
   t_llist	*elem;
@@ -60,9 +60,28 @@ void		*pop(t_llist **list)
   return (data);
 }
 
-int		sort(t_llist **list, t_llist_func func)
+int		llist_sort(t_llist **list, t_llist_func func)
 {
-  (void) list;
-  (void) func;
+  t_llist	*tmp;
+  void		*data;
+  int		sorted = 0;
+
+  while (!sorted)
+    {
+      llist_go_first(list);
+      tmp = (*list);
+      sorted = 1;
+      while (tmp->next)
+	{
+	  if (func(tmp->data, tmp->next->data))
+	    {
+	      data = tmp->data;
+	      tmp->data = tmp->next->data;
+	      tmp->next->data = data;
+	      sorted = 0;
+	    }
+	  tmp = tmp->next;
+	}
+    }
   return (0);
 }

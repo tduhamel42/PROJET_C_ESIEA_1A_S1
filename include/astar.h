@@ -2,7 +2,7 @@
  * File              : include/astar.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 19.12.2018
+ * Last Modified Date: 08.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -18,6 +18,9 @@ typedef struct		s_node
 {
   t_vector2		pos;
   int			h;
+  int			g;
+  int			f;
+  struct s_node		*parent;
 }			t_node;
 
 int			astar(t_maze *maze,

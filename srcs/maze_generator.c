@@ -2,7 +2,7 @@
  * File              : srcs/maze_generator.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 29.12.2018
+ * Last Modified Date: 08.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -162,7 +162,7 @@ static char		**depth_search(int width, int height, int is_printed)
 	}
       else if (stack)
 	{
-	  p_cell = (t_vector2 *) pop(&stack);
+	  p_cell = (t_vector2 *) llist_pop(&stack);
 	  if (p_cell)
 	    {
 	      c_cell.x = p_cell->x;

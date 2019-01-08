@@ -2,7 +2,7 @@
  * File              : srcs/maze_helper.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 18.12.2018
- * Last Modified Date: 07.01.2019
+ * Last Modified Date: 08.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -112,6 +112,8 @@ void		normal_maze_print(t_maze *maze)
 	    printf("#");
 	  else if (maze->data[y][x] == 'p')
 	    printf("☺");
+	  else if (maze->data[y][x] == 'e')
+	    printf("e");
 	  else
 	    printf(" ");
 	}

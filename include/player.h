@@ -2,7 +2,7 @@
  * File              : include/player.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 27.12.2018
- * Last Modified Date: 29.12.2018
+ * Last Modified Date: 08.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
