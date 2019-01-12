@@ -2,7 +2,7 @@
  * File              : srcs/main_menu_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -34,7 +34,7 @@ static int		update(t_game *game)
 	case 0:
 	  delete_main_menu_screen(game->current_screen);
 	  system("clear");
-	  if ((game->current_screen = new_ia_screen()) == NULL)
+	  if ((game->current_screen = new_ia_screen(game)) == NULL)
 	    return (1);
 	  break;
 	case 1:

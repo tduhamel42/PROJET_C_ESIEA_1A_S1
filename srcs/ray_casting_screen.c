@@ -2,7 +2,7 @@
  * File              : srcs/ray_casting_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 07.01.2019
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -195,7 +195,7 @@ static void			print_wall(t_game *game,
 	  if (data->epilepsy)
 	    color= (rand() % (FG_WHITE - FG_BLACK)) + FG_BLACK;
 	  else
-	    color = FG_WHITE;
+	    color = data->wall_color;
 	  if (y <= ceiling)
 	    color_printxy(x, y, FG_WHITE, " ");
 	  else if (y > ceiling && y < floor)
@@ -253,12 +253,15 @@ static int			render(t_game *game)
 
       float eye_x = sinf(ray_angle);
       float eye_y = cosf(ray_angle);
+      
+      int test_x;
+      int test_y;
 
       while (!hit_wall && distance_to_wall < DEPTH)
 	{
 	  distance_to_wall += step_size;
-	  int test_x = (int)(data->player_pos.x + eye_x * distance_to_wall);
-	  int test_y = (int)(data->player_pos.y + eye_y * distance_to_wall);
+	  test_x = (int)(data->player_pos.x + eye_x * distance_to_wall);
+	  test_y = (int)(data->player_pos.y + eye_y * distance_to_wall);
 
 	  if (test_y < 0 || test_x >= game->maze->size.x
 	      || test_y < 0 || test_y >= game->maze->size.y)
@@ -279,6 +282,10 @@ static int			render(t_game *game)
 		is_end = 0;
 	    }
 	}
+      if (test_x % 2 == 0 && test_y % 2 == 0)
+	data->wall_color = FG_BLACK;
+      else
+	data->wall_color = FG_WHITE;
       if (!data->victory)
 	print_wall(game, data, x, distance_to_wall, boundary, is_end);
     }
@@ -306,17 +313,18 @@ t_screen			*new_ray_casting_screen(t_game *game)
   data->player_pos.x = 1;
   data->player_pos.y = 1;
   data->player_angle = 0.0;
+  data->wall_color = FG_BLACK;
   data->start_time = clock();
   if (game->use_generated)
     {
-      game->maze->size.x = 20;
-      game->maze->size.y = 15;
+      game->maze->size.x = game->maze->size.x * 2;
+      game->maze->size.y = game->maze->size.y * 2;
       game->maze->data = generate_maze_depth_search(game->maze->size.x,
 						    game->maze->size.y);
       game->maze->size.x++;
       game->maze->size.y++;
-      game->maze->end.x = game->maze->size.x - 3;
-      game->maze->end.y = game->maze->size.y - 3;
+      game->maze->end.x = game->maze->size.x - 2;
+      game->maze->end.y = game->maze->size.y - 2;
     }
   game->maze->data[game->maze->end.y][game->maze->end.x] = 'e';
   return (screen);

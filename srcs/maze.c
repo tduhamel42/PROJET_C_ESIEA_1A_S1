@@ -2,7 +2,7 @@
  * File              : srcs/maze.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -39,12 +39,15 @@ t_game			*new_game()
       || (game->maze = malloc(sizeof(t_maze))) == NULL) 
     return (NULL);
   game->running = 1;
+  game->error = 0;
   game->use_generated = 0;
+  if (load_maze(game->maze))
+    game->error = 1;
+
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
   set_cursor(INVISIBLE);
   term_width = w.ws_col;
   term_height = w.ws_row;
-  load_maze(game->maze);
 
   tcgetattr(STDIN_FILENO, &oldterm);
   newterm = oldterm;
@@ -59,6 +62,7 @@ t_game			*new_game()
 
 void			delete_game(t_game *game)
 {
+  delete_screen(game->current_screen);
   free(game);
 }
 
@@ -77,6 +81,8 @@ static char		key_pressed()
 
 int			run_game(t_game *game)
 {
+  if (game->error)
+    return (EXIT_FAILURE);
   system("clear");
   while (game->running)
     {

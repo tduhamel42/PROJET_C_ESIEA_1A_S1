@@ -2,7 +2,7 @@
  * File              : include/ray_casting_screen.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 07.01.2019
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -29,6 +29,7 @@ typedef struct			s_ray_casting_screen_data
   long				delta_time;
   long				start_time;
   long				end_time;
+  int				wall_color;
 }				t_ray_casting_screen_data;
 
 t_screen			*new_ray_casting_screen(t_game *game);

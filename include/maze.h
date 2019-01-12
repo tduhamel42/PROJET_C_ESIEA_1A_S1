@@ -2,7 +2,7 @@
  * File              : include/maze.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -30,6 +30,7 @@ typedef struct		s_game
   char			key;
   t_maze		*maze;
   int			use_generated;
+  int			error;
 }			t_game;
 
 t_game			*new_game();

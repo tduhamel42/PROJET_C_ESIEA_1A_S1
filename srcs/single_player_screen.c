@@ -2,7 +2,7 @@
  * File              : srcs/single_player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -21,7 +21,7 @@ static int		update(t_game *game)
   t_single_player_screen_data	*data =
     (t_single_player_screen_data *) game->current_screen->data;
   
-  game->maze->data[data->player->pos.y][data->player->pos.x] = ' ';
+  game->maze->data[data->player->pos.y][data->player->pos.x] = '1';
   data->player->update(game, game->maze, data->player);
   game->maze->data[data->player->pos.y][data->player->pos.x] = 'p';
   if (data->player->pos.x == game->maze->end.x
@@ -128,6 +128,8 @@ t_screen			*new_single_player_screen(t_game *game)
 						    game->maze->size.y);
       game->maze->size.x++;
       game->maze->size.y++;
+      game->maze->end.x = game->maze->size.x - 2;
+      game->maze->end.y = game->maze->size.y - 2;
     }
   game->maze->data[game->maze->end.y][game->maze->end.x] = 'e';
   data->victory = 0;

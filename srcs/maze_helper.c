@@ -2,7 +2,7 @@
  * File              : srcs/maze_helper.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 18.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -55,17 +55,43 @@ static void	convert_maze(t_vector2 size, char maze[size.y][size.x][5], char **fm
 	    }
 	}
     }
+  for (int y = 0; y < size.y * 2 + 1; y += 2)
+    {
+      for (int x = 0; x < size.x * 2 + 1; x++)
+	{
+	  if (x % 2 == 0)
+	    if (y - 1 > 0 && y < size.y * 2
+		&& y + 1 < size.y * 2
+		&& x - 1 > 0
+		&& x + 1 < size.x * 2)
+	    {
+	      if (fmaze[y - 1][x - 1] == ' '
+		  && fmaze[y - 1][x] == ' '
+		  && fmaze[y - 1][x + 1] == ' '
+		  && fmaze[y][x - 1] == ' '
+		  && fmaze[y][x + 1] == ' '
+		  && fmaze[y + 1][x - 1] == ' '
+		  && fmaze[y + 1][x] == ' '
+		  && fmaze[y + 1][x + 1] == ' ')
+		fmaze[y][x] = ' ';
+	    }
+	}
+    }
 }
 
 int		load_maze(t_maze *maze)
 {
-  scanf("%d %d %d %d %d %d",
+  if ((scanf("%d %d %d %d %d %d",
 	&maze->size.x,
 	&maze->size.y,
 	&maze->start.x,
 	&maze->start.y,
 	&maze->end.x,
-	&maze->end.y);
+	&maze->end.y)) != 6)
+      {
+	dprintf(2, "Error while loading maze !\n");
+	return (1);
+      }
 
   char		r_maze[maze->size.y][maze->size.x][5];
   
@@ -148,6 +174,14 @@ void		pretty_maze_print(t_maze *maze)
 		  break;
 		case 'e':
 		  printf("☉ ");
+		  break;
+		case '1':
+		  attron(FG_RED);
+		  printf("★ ");
+		  break;
+		case '2':
+		  attron(FG_YELLOW);
+		  printf("★ ");
 		  break;
 		default:
 		  printf("  ");

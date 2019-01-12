@@ -2,7 +2,7 @@
  * File              : srcs/two_player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 29.12.2018
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -20,8 +20,8 @@ static int		update(t_game *game)
   t_two_player_screen_data	*data =
     (t_two_player_screen_data *) game->current_screen->data;
   
-  game->maze->data[data->player1->pos.y][data->player1->pos.x] = ' ';
-  game->maze->data[data->player2->pos.y][data->player2->pos.x] = ' ';
+  game->maze->data[data->player1->pos.y][data->player1->pos.x] = '1';
+  game->maze->data[data->player2->pos.y][data->player2->pos.x] = '2';
   data->player1->update(game, game->maze, data->player1);
   data->player2->update(game, game->maze, data->player2);
   game->maze->data[data->player1->pos.y][data->player1->pos.x] = 'p';

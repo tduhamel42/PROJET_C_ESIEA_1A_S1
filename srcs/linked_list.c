@@ -2,7 +2,7 @@
  * File              : srcs/linked_list.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -71,7 +71,7 @@ int		llist_sort(t_llist **list, t_llist_func func)
       llist_go_first(list);
       tmp = (*list);
       sorted = 1;
-      while (tmp->next)
+      while (tmp && tmp->next)
 	{
 	  if (func(tmp->data, tmp->next->data))
 	    {

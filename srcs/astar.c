@@ -2,7 +2,7 @@
  * File              : srcs/astar.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 12.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -43,33 +43,60 @@ static t_node	*get_node(t_llist **nodes, t_vector2 pos)
   return (NULL);
 }
 
+static int	init_nodes(t_maze *maze, t_llist **nodes)
+{
+  t_node	*tmp;
+  t_vector2	pos;
+
+  for (int y = 0; y < maze->size.y; y++)
+    {
+      for (int x = 0; x < maze->size.x; x++)
+	{
+	  pos.x = x;
+	  pos.y = y;
+	  if ((tmp = new_node(pos, 0, 0)) == NULL)
+	    return (1);
+	  if (llist_push(nodes, tmp))
+	    return (1);
+	}
+    }
+  return (0);
+}
+
 static int	heuristic(t_vector2 a, t_vector2 b)
 {
   return (10 * (abs(a.x - b.x) + abs(a.y - b.y)));
 }
 
-static void	get_adjs(t_maze *maze, t_node adjs[4], t_vector2 pos)
+static void	get_adjs(t_llist **nodes, t_node *adjs[4], t_vector2 pos)
 {
-  if (pos.y + 1 < maze->size.y)
-    {
-      adjs[0].pos.x = pos.x;
-      adjs[0].pos.y = pos.y + 1;
-    }
-  if (pos.x + 1 < maze->size.x)
-    {
-      adjs[1].pos.x = pos.x + 1;
-      adjs[1].pos.y = pos.y;
-    }
-  if (pos.y - 1 > 0)
-    {
-      adjs[2].pos.x = pos.x;
-      adjs[2].pos.y = pos.y - 1;
-    }
-  if (pos.x - 1 > 0)
-    {
-      adjs[3].pos.x = pos.x - 1;
-      adjs[3].pos.y = pos.y;
-    }
+  t_node	*tmp;
+  t_vector2	p;
+
+  adjs[0] = NULL;
+  adjs[1] = NULL;
+  adjs[2] = NULL;
+  adjs[3] = NULL;
+  llist_go_first(nodes);
+  p.x = pos.x + 1;
+  p.y = pos.y;
+  if ((tmp = get_node(nodes, p)) != NULL)
+    adjs[0] = tmp;
+  llist_go_first(nodes);
+  p.x = pos.x;
+  p.y = pos.y - 1;
+  if ((tmp = get_node(nodes, p)) != NULL)
+    adjs[1] = tmp;
+  llist_go_first(nodes);
+  p.x = pos.x - 1;
+  p.y = pos.y;
+  if ((tmp = get_node(nodes, p)) != NULL)
+    adjs[2] = tmp;
+  llist_go_first(nodes);
+  p.x = pos.x;
+  p.y = pos.y + 1;
+  if ((tmp = get_node(nodes, p)) != NULL)
+    adjs[3] = tmp;
 }
 
 static int	sort(void *d1, void *d2)
@@ -97,32 +124,69 @@ char		is_in_list(t_llist **list, t_vector2 pos)
   return (0);
 }
 
-int		astar(t_maze *maze, t_llist **list, t_vector2 start_pos, t_vector2 end)
+static void	update_cell(t_node *adj, t_node *n, t_vector2 end)
 {
-  t_llist	*olist = NULL, *clist = NULL;
-  t_node	*start, *current, adjs[4];
-  int		h;
+  adj->g = n->g + 10;
+  adj->h = heuristic(adj->pos, end);
+  adj->parent = n;
+  adj->f = adj->h + adj->g;
+}
 
-  h = heuristic(start_pos, end);
-  if ((start = new_node(start_pos, h, 0)) == NULL)
-    return (1);
-  llist_push(&olist, &start);
-  while (llist_is_empty(&olist))
+static void	do_path(t_llist **nodes, t_llist **path,
+			t_vector2 end, t_vector2 start)
+{
+  t_node	*node;
+
+  node = get_node(nodes, end);
+  while (node && (node->pos.x != start.x || node->pos.y != start.y))
+    {
+      llist_push(path, node);
+      node = node->parent;
+    }
+}
+
+int		astar(t_maze *maze, t_llist **path, t_vector2 start_pos, t_vector2 end)
+{
+  t_llist	*nodes = NULL, *olist = NULL, *clist = NULL;
+  t_node	*start, *current;
+
+  init_nodes(maze, &nodes);
+  start = get_node(&nodes, start_pos);
+  llist_push(&olist, start);
+  while (!llist_is_empty(&olist))
     {
       current = (t_node *) llist_pop(&olist);
+      llist_go_last(&clist);
       llist_push(&clist, current);
 
       if (current->pos.x == end.x && current->pos.y == end.y)
-	break;
-      t_node adjs[4];
-      get_adjs(maze, adjs, current->pos);
+	{
+	  do_path(&nodes, path, end, start_pos);
+	  return (0);
+	}
+      t_node *adjs[4];
+      get_adjs(&nodes, adjs, current->pos);
       for (int i = 0; i < 4; i++)
 	{
-	  if (is_in_list(&olist, adjs[i].pos))
+	  if (adjs[i] == NULL)
+	    continue ;
+	  if (!is_in_list(&clist, adjs[i]->pos)
+	      && maze->data[adjs[i]->pos.y][adjs[i]->pos.x] != '#')
 	    {
+	      if (is_in_list(&olist, adjs[i]->pos))
+		{
+		  if (adjs[i]->g > current->g + 10)
+		    update_cell(adjs[i], current, end);
+		}
+	      else
+		{
+		  update_cell(adjs[i], current, end);
+		  llist_go_last(&olist);
+		  llist_push(&olist, adjs[i]);
+		}
 	    }
 	}
       llist_sort(&olist, sort);
     }
-  return (0);
+  return (1);
 }
