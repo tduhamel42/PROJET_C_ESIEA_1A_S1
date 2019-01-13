@@ -2,7 +2,7 @@
  * File              : include/ia_screen.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -20,6 +20,7 @@ typedef struct		s_ia_screen_data
   t_llist		*path;
   int			speed;
   int			no_exit;
+  int			victory;
 }			t_ia_screen_data;
 
 t_screen		*new_ia_screen(t_game *game);

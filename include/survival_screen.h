@@ -2,7 +2,7 @@
  * File              : include/survival_screen.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 29.12.2018
- * Last Modified Date: 29.12.2018
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -21,6 +21,8 @@ typedef struct			s_survival_screen_data
   t_entity			*player;
   char				*name;
   t_survival_level		*level;
+  int				level_nbr;
+  char				level_completed;
 }				t_survival_screen_data;
 
 t_screen		*new_survival_screen(t_game *game, char *name);

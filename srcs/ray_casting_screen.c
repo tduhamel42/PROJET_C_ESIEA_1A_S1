@@ -31,7 +31,7 @@ static int			update(t_game *game)
   t_ray_casting_screen_data	*data =
     (t_ray_casting_screen_data *) game->current_screen->data;
 
-  game->maze->data[(int)data->player_pos.y][(int)data->player_pos.x] = ' ';
+  game->maze->data[(int)data->player_pos.y][(int)data->player_pos.x] = '1';
   switch (game->key)
     {
     case 'A':

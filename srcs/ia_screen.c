@@ -2,7 +2,7 @@
  * File              : srcs/ia_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -44,6 +44,12 @@ static int		update(t_game *game)
     case '-':
       data->speed += 10000;
       break;
+    }
+  if (!data->path)
+    {
+      if (data->victory == 0)
+	system("clear");
+      data->victory = 1;
     }
   return (0);
 }
@@ -104,19 +110,62 @@ static void		print_no_exit()
 		"╚═╝  ╚═══╝╚═════╝     ╚══════╚═╝  ╚═╚═╝  ╚═╝   ");
 }
 
+static void		print_victory()
+{
+  int			color = (rand() % (FG_WHITE - FG_BLACK)) + FG_BLACK;
+
+  color_printxy((term_width / 2) - 30,
+		(term_height / 2) - 5,
+		color,
+		"██╗   ██╗██╗ ██████╗████████╗ ██████╗ ██████╗ ██╗   ██╗");
+  color_printxy((term_width / 2) - 30,
+		(term_height / 2) - 4,
+		color,
+		"██║   ██║██║██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗╚██╗ ██╔╝");
+  color_printxy((term_width / 2) - 30,
+		(term_height / 2) - 3,
+		color,
+		"██║   ██║██║██║        ██║   ██║   ██║██████╔╝ ╚████╔╝ ");
+  color_printxy((term_width / 2) - 30,
+		(term_height / 2) - 2,
+		color,
+		"╚██╗ ██╔╝██║██║        ██║   ██║   ██║██╔══██╗  ╚██╔╝  ");
+  color_printxy((term_width / 2) - 30,
+		(term_height / 2) - 1,
+		color,
+		" ╚████╔╝ ██║╚██████╗   ██║   ╚██████╔╝██║  ██║   ██║   ");
+  color_printxy((term_width / 2) - 30,
+		(term_height / 2),
+		color,
+		"  ╚═══╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ");
+  color_printxy((term_width / 2) - 15,
+		(term_height / 2) + 2,
+		FG_BLUE,
+		"Press r to restart !");
+  color_printxy((term_width / 2) - 15,
+		(term_height / 2) + 3,
+		FG_BLUE,
+		"Press escape to quit !");
+}
+
 static int		render(t_game *game)
 {
   t_ia_screen_data	*data = (t_ia_screen_data *) game->current_screen->data;
 
   if (data->no_exit == 0)
     {
-      pretty_maze_print(game->maze);
-      render_stats(game);
-      color_printxy((game->maze->size.x * 2) + 5,
-		10,
-		FG_BLUE,
-		"Press + or - to increase or decrease speed !");
-      usleep(data->speed);
+      if (!data->victory)
+	{
+	  pretty_maze_print(game->maze);
+	  render_stats(game);
+	  color_printxy((game->maze->size.x * 2) + 5,
+			10,
+			FG_BLUE,
+			"Press + or - to increase or decrease speed !");
+	  usleep(data->speed);
+	}
+      else
+	print_victory();
     }
   else
     print_no_exit();
@@ -139,10 +188,11 @@ t_screen		*new_ia_screen(t_game *game)
     return (NULL);
   data->speed = 300000;
   data->no_exit = 0;
+  data->victory = 0;
   if (game->use_generated)
     {
-      game->maze->size.x = game->maze->size.x * 2;
-      game->maze->size.y = game->maze->size.y * 2;
+      game->maze->size.x = game->maze->size.x * 8;
+      game->maze->size.y = game->maze->size.y * 6;
       game->maze->data = generate_maze_depth_search(game->maze->size.x,
 						    game->maze->size.y);
       game->maze->size.x++;

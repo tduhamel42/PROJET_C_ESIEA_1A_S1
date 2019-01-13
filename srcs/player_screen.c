@@ -2,7 +2,7 @@
  * File              : srcs/player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 07.01.2019
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -15,7 +15,7 @@
 #include "single_player_screen.h"
 #include "two_player_screen.h"
 #include "ray_casting_screen.h"
-#include "adventure_mode_screen.h"
+#include "survival_mode_screen.h"
 #include "main_menu_screen.h"
 #include "player_screen.h"
 
@@ -44,7 +44,7 @@ static int		update(t_game *game)
 	  case 2:
 	    delete_player_screen(game->current_screen);
 	    system("clear");
-	    if ((game->current_screen = new_adventure_mode_screen(game)) == NULL)
+	    if ((game->current_screen = new_survival_mode_screen(game)) == NULL)
 	      return (1);
 	    break;
 	  case 3:
@@ -121,7 +121,7 @@ t_screen		*new_player_screen(t_game *game)
 				       5,
 				       "Normal mode - One player",
 				       "Normal mode - Two player",
-				       "Adventure mode",
+				       "Survival mode",
 				       "Ray Casting mode",
 				       "Back")) == NULL)
     return (NULL);

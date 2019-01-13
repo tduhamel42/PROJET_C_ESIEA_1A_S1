@@ -140,6 +140,8 @@ void		normal_maze_print(t_maze *maze)
 	    printf("☺");
 	  else if (maze->data[y][x] == 'e')
 	    printf("e");
+	  else if (maze->data[y][x] == '1')
+	    printf("*");
 	  else
 	    printf(" ");
 	}

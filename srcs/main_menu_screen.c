@@ -2,7 +2,7 @@
  * File              : srcs/main_menu_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -80,12 +80,31 @@ static void		print_title(int color)
 		"╚═════╝ ╚═╝╚══════╝╚══════╝   ╚═╝   ╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝");
 }
 
+static void		print_help()
+{
+  attron(BOLD);
+  color_printxy(5,
+		(term_height / 2),
+		FG_YELLOW,
+		"Help:");
+  attroff();
+  color_printxy(5,
+		(term_height / 2) + 1,
+		FG_MAGENTA,
+		"Use ⇦ ⇧ ⇨ ⇩ to move around !");
+  color_printxy(5,
+		(term_height / 2) + 2,
+		FG_MAGENTA,
+		"Press Escape to quit !");
+}
+
 static int		render(t_game *game)
 {
   t_main_menu_data	*data = (t_main_menu_data *) game->current_screen->data;
   int			color = (rand() % (FG_WHITE - FG_BLACK)) + FG_BLACK;
 
   print_title(color);
+  print_help();
   draw_box((term_width / 2) - strlen("Where is billy ?") - 2,
 	   (term_height / 2) - 6,
 	   30,

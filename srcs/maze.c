@@ -2,7 +2,7 @@
  * File              : srcs/maze.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -29,6 +29,17 @@ void			reset_term()
   printf("Bye !\n");
 }
 
+static void		handle_resize(int sig)
+{
+  struct winsize	w;
+
+  (void) sig;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+  term_width = w.ws_col;
+  term_height = w.ws_row;
+  system("clear");
+}
+
 t_game			*new_game()
 {
   t_game		*game;
@@ -48,6 +59,7 @@ t_game			*new_game()
   set_cursor(INVISIBLE);
   term_width = w.ws_col;
   term_height = w.ws_row;
+  signal(SIGWINCH, handle_resize);
 
   tcgetattr(STDIN_FILENO, &oldterm);
   newterm = oldterm;

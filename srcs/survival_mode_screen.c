@@ -2,7 +2,7 @@
  * File              : srcs/survival_mode_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 27.12.2018
- * Last Modified Date: 29.12.2018
+ * Last Modified Date: 13.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -63,7 +63,7 @@ static int			render(t_game *game)
   color_printxy(10,
 		(term_height / 2) - 10,
 		FG_WHITE,
-		"Highscores");
+		"Highscores (TODO):");
   attroff();
   attron(BLINK);
   color_printxy((term_width / 2) - (strlen("Enter your name:") / 2),
