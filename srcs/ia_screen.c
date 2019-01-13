@@ -1,5 +1,5 @@
 /**
- * File              : srcs/ia_screen.c
+ * File              : ia_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
  * Last Modified Date: 13.01.2019
@@ -191,8 +191,8 @@ t_screen		*new_ia_screen(t_game *game)
   data->victory = 0;
   if (game->use_generated)
     {
-      game->maze->size.x = game->maze->size.x * 8;
-      game->maze->size.y = game->maze->size.y * 6;
+      game->maze->size.x = game->maze->size.x * 2;
+      game->maze->size.y = game->maze->size.y * 2;
       game->maze->data = generate_maze_depth_search(game->maze->size.x,
 						    game->maze->size.y);
       game->maze->size.x++;

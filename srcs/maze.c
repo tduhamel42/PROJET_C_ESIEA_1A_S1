@@ -1,5 +1,5 @@
 /**
- * File              : srcs/maze.c
+ * File              : maze.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
  * Last Modified Date: 13.01.2019

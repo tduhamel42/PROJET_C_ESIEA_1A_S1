@@ -1,5 +1,5 @@
 /**
- * File              : srcs/survival_level.c
+ * File              : survival_level.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 29.12.2018
  * Last Modified Date: 13.01.2019
