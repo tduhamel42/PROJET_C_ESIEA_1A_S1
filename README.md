@@ -2,11 +2,12 @@
 
 Compilation:
 
-'''bash
+```bash
 $ make re
-'''
+```
 
 Execution:
-'''bash
+
+```bash
 $ ./projet < [maze_file]
-'''
+```
