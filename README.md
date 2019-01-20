@@ -3,7 +3,7 @@
 Compilation:
 
 ```bash
-$ make re
+$ make
 ```
 
 Execution:
@@ -11,3 +11,9 @@ Execution:
 ```bash
 $ ./projet < [maze_file]
 ```
+
+## Ray casting
+
+[What's ray casting ?](https://en.wikipedia.org/wiki/Ray_casting)
+
+[GitHub repository](https://github.com/tduhamel42/PROJET_C_ESIEA_1A)

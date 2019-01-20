@@ -1,8 +1,8 @@
 /**
- * File              : srcs/player_screen.c
+ * File              : player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 13.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -122,7 +122,7 @@ t_screen		*new_player_screen(t_game *game)
 				       "Normal mode - One player",
 				       "Normal mode - Two player",
 				       "Survival mode",
-				       "Ray Casting mode",
+				       "Ray Casting mode (Experimental)",
 				       "Back")) == NULL)
     return (NULL);
   return (screen);

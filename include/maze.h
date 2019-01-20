@@ -1,8 +1,8 @@
 /**
- * File              : include/maze.h
+ * File              : maze.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -33,8 +33,14 @@ typedef struct		s_game
   int			error;
 }			t_game;
 
+/*
+** Returns an initialized t_game struct
+*/
 t_game			*new_game();
 void			delete_game(t_game *game);
+/*
+** Main loop of the game
+*/
 int			run_game(t_game *game);
 
 #endif /* !MAZE_H_ */

@@ -1,8 +1,8 @@
 /**
- * File              : srcs/ray_casting_screen.c
+ * File              : ray_casting_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 07.01.2019
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -233,6 +233,8 @@ static int			render(t_game *game)
 {
   t_ray_casting_screen_data	*data =
     (t_ray_casting_screen_data *) game->current_screen->data;
+  int test_x, test_y;
+  float step_size = 0.3f;
 
   data->end_time = clock();
   data->delta_time = (data->end_time - data->start_time)
@@ -244,7 +246,6 @@ static int			render(t_game *game)
       float ray_angle = (data->player_angle - FOV / 2) +
 	((float) x /  (float) term_width) * FOV;
 
-      float step_size = 0.3f;
       float distance_to_wall = 0.0f;
 
       char hit_wall = 0;
@@ -253,9 +254,6 @@ static int			render(t_game *game)
 
       float eye_x = sinf(ray_angle);
       float eye_y = cosf(ray_angle);
-      
-      int test_x;
-      int test_y;
 
       while (!hit_wall && distance_to_wall < DEPTH)
 	{
