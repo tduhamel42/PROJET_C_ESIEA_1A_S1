@@ -1,8 +1,8 @@
 /**
- * File              : include/player.h
+ * File              : player.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 27.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -27,6 +27,12 @@ typedef struct		s_player_data
   int			dir;
 }			t_player_data;
 
+/*
+** Returns an initialized t_entity with
+** all the required informations for a player
+**
+** char *keys is used to setup the control keys
+*/
 t_entity		*new_player(t_vector2 pos, const char *keys);
 void			delete_player(t_entity *player);
 

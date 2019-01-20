@@ -20,6 +20,14 @@ typedef struct		s_selection_menu
   int			selected;
 }			t_selection_menu;
 
+/*
+** Returns an initialized t_selection_menu struct
+**
+** selected_type is used to choose the way the selected item
+** is displayed
+**
+** size is the number of items in the menu
+*/
 t_selection_menu	*new_selection_menu(int x,
 					    int y,
 					    int selected_type,

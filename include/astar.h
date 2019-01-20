@@ -1,8 +1,8 @@
 /**
- * File              : include/astar.h
+ * File              : astar.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 19.12.2018
- * Last Modified Date: 08.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -23,6 +23,10 @@ typedef struct		s_node
   struct s_node		*parent;
 }			t_node;
 
+/*
+** Puts the shortest path between the two given pos
+** in the list path
+*/
 int			astar(t_maze *maze,
 			      t_llist **path,
 			      t_vector2 start,

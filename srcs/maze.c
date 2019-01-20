@@ -59,12 +59,14 @@ t_game			*new_game()
   set_cursor(INVISIBLE);
   term_width = w.ws_col;
   term_height = w.ws_row;
+  // Catch SIGWINCH signal to detect resize
   signal(SIGWINCH, handle_resize);
 
   tcgetattr(STDIN_FILENO, &oldterm);
   newterm = oldterm;
   newterm.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newterm);
+  // Reset the terminal when exiting
   atexit(reset_term);
 
   if (term_width < 120 || term_height < 30)
@@ -109,6 +111,8 @@ int			run_game(t_game *game)
 	game->key = '\b';
       if (game->key == 27 && key_pressed() == 0)
 	game->running = 0;
+      // Just change current_screen pointer to change screen
+      // function pointers will do the rest
       if (game->current_screen && game->current_screen->update)
 	game->current_screen->update(game);
       if (game->current_screen && game->current_screen->render)

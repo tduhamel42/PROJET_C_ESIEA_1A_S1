@@ -1,8 +1,8 @@
 /**
- * File              : include/draw_utils.h
+ * File              : draw_utils.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -49,9 +49,21 @@ enum		e_cursor
   INVISIBLE
 };
 
+/*
+** Prints at the given pos with the given color
+*/
 void		color_printxy(int x, int y, int color, char *format, ...);
+/*
+** Switch on the given attribute
+*/
 void		attron(int attr);
+/*
+** Resets all attributes
+*/
 void		attroff();
+/*
+** Sets cursor to visible or invisible
+*/
 void		set_cursor(int attr);
 void		draw_box(int x, int y, int width, int height, int color);
 void		move_cursor(int x, int y);

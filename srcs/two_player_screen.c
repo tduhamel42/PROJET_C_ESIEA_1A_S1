@@ -1,8 +1,8 @@
 /**
- * File              : srcs/two_player_screen.c
+ * File              : two_player_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -26,7 +26,51 @@ static int		update(t_game *game)
   data->player2->update(game, game->maze, data->player2);
   game->maze->data[data->player1->pos.y][data->player1->pos.x] = 'p';
   game->maze->data[data->player2->pos.y][data->player2->pos.x] = 'q';
+  if (data->player1->pos.x == game->maze->end.x
+      && data->player1->pos.y == game->maze->end.y)
+    data->victory = 1;
+  else if (data->player2->pos.x == game->maze->end.x
+      && data->player2->pos.y == game->maze->end.y)
+    data->victory = 2;
   return (0);
+}
+
+static void		print_victory(t_two_player_screen_data *data)
+{
+int			color = (rand() % (FG_WHITE - FG_BLACK)) + FG_BLACK;
+
+color_printxy((term_width / 2) - 30,
+	      (term_height / 2) - 5,
+	      color,
+	      "██╗   ██╗██╗ ██████╗████████╗ ██████╗ ██████╗ ██╗   ██╗");
+color_printxy((term_width / 2) - 30,
+	      (term_height / 2) - 4,
+	      color,
+	      "██║   ██║██║██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗╚██╗ ██╔╝");
+color_printxy((term_width / 2) - 30,
+	      (term_height / 2) - 3,
+	      color,
+	      "██║   ██║██║██║        ██║   ██║   ██║██████╔╝ ╚████╔╝ ");
+color_printxy((term_width / 2) - 30,
+	      (term_height / 2) - 2,
+	      color,
+	      "╚██╗ ██╔╝██║██║        ██║   ██║   ██║██╔══██╗  ╚██╔╝  ");
+color_printxy((term_width / 2) - 30,
+	      (term_height / 2) - 1,
+	      color,
+	      " ╚████╔╝ ██║╚██████╗   ██║   ╚██████╔╝██║  ██║   ██║   ");
+color_printxy((term_width / 2) - 30,
+	      (term_height / 2),
+	      color,
+	      "  ╚═══╝  ╚═╝ ╚═════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ");
+color_printxy((term_width / 2) - 15,
+	      (term_height / 2) + 2,
+	      FG_BLUE,
+	      "Player %d wins !", data->victory);
+color_printxy((term_width / 2) - 15,
+	      (term_height / 2) + 4,
+	      FG_BLUE,
+	      "Press escape to quit !");
 }
 
 static int		render(t_game *game)
@@ -68,7 +112,10 @@ static int		render(t_game *game)
 		13,
 		FG_YELLOW,
 		"Number of steps: %4d", player2_data->nbr_move);
-  pretty_maze_print(game->maze);
+  if (!data->victory)
+    pretty_maze_print(game->maze);
+  if (data->victory != 0)
+    print_victory(data);
   return (0);
 }
 
