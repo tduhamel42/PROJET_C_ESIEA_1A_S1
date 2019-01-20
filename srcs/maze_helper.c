@@ -124,6 +124,7 @@ static int	check_maze(t_vector2 size, char r_maze[size.y][size.x][5])
 
 int		load_maze(t_maze *maze)
 {
+  printf("Waiting for maze !\n");
   if ((scanf("%d %d %d %d %d %d",
 	&maze->size.x,
 	&maze->size.y,
