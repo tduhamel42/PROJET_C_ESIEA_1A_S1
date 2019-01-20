@@ -1,0 +1,9 @@
+8 6 0 0 7 5
+M-MMM---MM--M--MM-M-MMM-
+M-MM-M-----M----M-M-MMM-
+MM-M-M-M-M-M-M-MM--MMMM-
+--MM--M--MM--M-M-M-MMMMM
+M-MMM-M-M-----------MMM-
+M--MM-----M--MM----MMM--
+-M-M--MMM---M-M--M---MMM
+-MMMM-MM--M-MMM---MMMMM-

@@ -1,1 +1,0 @@
-/usr/bin/cc   -rdynamic CMakeFiles/projet.dir/srcs/main.c.o CMakeFiles/projet.dir/srcs/main_menu.c.o CMakeFiles/projet.dir/srcs/game.c.o CMakeFiles/projet.dir/srcs/screen.c.o CMakeFiles/projet.dir/srcs/game_screen.c.o  -o projet -lSDL2 -lpthread -lSDL2_image -lSDL2_ttf 

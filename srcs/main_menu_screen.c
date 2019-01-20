@@ -1,8 +1,8 @@
 /**
- * File              : srcs/main_menu_screen.c
+ * File              : main_menu_screen.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 13.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -20,6 +20,9 @@ static int		update(t_game *game)
   t_main_menu_data	*data = (t_main_menu_data *) game->current_screen->data;
 
   update_selection_menu(data->menu, game->key);
+  update_selection_menu_pos(data->menu,
+			    (term_width / 2) - 7,
+			    (term_height / 2) - 3);
   switch (game->key)
     {
     case ' ':

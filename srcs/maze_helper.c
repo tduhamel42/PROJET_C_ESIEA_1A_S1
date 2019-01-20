@@ -1,8 +1,8 @@
 /**
- * File              : srcs/maze_helper.c
+ * File              : maze_helper.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 18.12.2018
- * Last Modified Date: 12.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -79,6 +79,49 @@ static void	convert_maze(t_vector2 size, char maze[size.y][size.x][5], char **fm
     }
 }
 
+static int	check_maze(t_vector2 size, char r_maze[size.y][size.x][5])
+{
+  for (int y = 0; y < size.y; y++)
+    {
+      for (int x = 0; x < size.x; x++)
+	{
+	  if (r_maze[y][x][0] == 'M')
+	    {
+	      if (y > 0 && r_maze[y - 1][x][2] != 'M')
+		{
+		  printf("Error cell %d %d\n", x, y);
+		  return (1);
+		}
+	    }
+	  if (r_maze[y][x][1] == 'M')
+	    {
+	      if (x < size.x - 1 && r_maze[y][x + 1][3] != 'M')
+		{
+		  printf("Error cell %d %d\n", x, y);
+		  return (1);
+		}
+	    }
+	  if (r_maze[y][x][2] == 'M')
+	    {
+	      if (y < size.y - 1 && r_maze[y + 1][x][0] != 'M')
+		{
+		  printf("Error cell %d %d\n", x, y);
+		  return (1);
+		}
+	    }
+	  if (r_maze[y][x][3] == 'M')
+	    {
+	      if (x > 0 && r_maze[y][x - 1][1] != 'M')
+		{
+		  printf("Error cell %d %d\n", x, y);
+		  return (1);
+		}
+	    }
+	}
+    }
+  return (0);
+}
+
 int		load_maze(t_maze *maze)
 {
   if ((scanf("%d %d %d %d %d %d",
@@ -96,6 +139,8 @@ int		load_maze(t_maze *maze)
   char		r_maze[maze->size.y][maze->size.x][5];
   
   read_maze(maze->size, r_maze);
+  if (check_maze(maze->size, r_maze))
+    return (1);
   if ((maze->data = malloc(sizeof(char *) * (maze->size.y * 2 + 1))) == NULL)
     return (1);
   for (int y = 0; y < maze->size.y * 2 + 1; y++)
@@ -166,10 +211,12 @@ void		pretty_maze_print(t_maze *maze)
 	    {
 	      switch (maze->data[y][x])
 		{
+		case '3':
 		case 'p':
 		  attron(FG_RED);
 		  printf("웃");
 		  break;
+		case '4':
 		case 'q':
 		  attron(FG_YELLOW);
 		  printf("웃");

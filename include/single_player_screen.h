@@ -1,8 +1,8 @@
 /**
- * File              : include/single_player_screen.h
+ * File              : single_player_screen.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 27.12.2018
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -18,6 +18,7 @@ typedef struct s_entity	t_entity;
 typedef struct		s_single_player_screen_data
 {
   t_entity		*player;
+  t_vector2		last_pos;
   char			victory;
 }			t_single_player_screen_data;
 

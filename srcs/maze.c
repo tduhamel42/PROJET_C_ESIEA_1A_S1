@@ -2,7 +2,7 @@
  * File              : maze.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 17.12.2018
- * Last Modified Date: 13.01.2019
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -66,6 +66,12 @@ t_game			*new_game()
   newterm.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newterm);
   atexit(reset_term);
+
+  if (term_width < 120 || term_height < 30)
+    {
+      dprintf(2, "Please increase window size (better in full screen)\n");
+      return (NULL);
+    }
 
   if ((game->current_screen = new_main_menu_screen()) == NULL)
     return (NULL);

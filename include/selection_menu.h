@@ -1,8 +1,8 @@
 /**
- * File              : include/selection_menu.h
+ * File              : selection_menu.h
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -28,6 +28,7 @@ t_selection_menu	*new_selection_menu(int x,
 void			delete_selection_menu(t_selection_menu *menu);
 int			update_selection_menu(t_selection_menu *selection_menu,
 					      char key);
+int			update_selection_menu_pos(t_selection_menu *menu, int x, int y);
 int			render_selection_menu(t_selection_menu *selection_menu);
 
 #endif /* !SELECTION_MENU_H_ */

@@ -1,8 +1,8 @@
 /**
- * File              : srcs/selection_menu.c
+ * File              : selection_menu.c
  * Author            : Tanguy Duhamel <tanguydu@gmail.com>
  * Date              : 26.12.2018
- * Last Modified Date: 26.12.2018
+ * Last Modified Date: 20.01.2019
  * Last Modified By  : Tanguy Duhamel <tanguydu@gmail.com>
  */
 
@@ -59,6 +59,13 @@ int			update_selection_menu(t_selection_menu *menu, char key)
 	menu->selected = 0;
       break;
     }
+  return (0);
+}
+
+int			update_selection_menu_pos(t_selection_menu *menu, int x, int y)
+{
+  menu->pos.x = x;
+  menu->pos.y = y;
   return (0);
 }
 
